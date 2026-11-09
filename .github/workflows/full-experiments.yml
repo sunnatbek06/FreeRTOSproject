@@ -1,0 +1,35 @@
+name: FreeRTOS full controlled experiment suite
+on:
+  workflow_dispatch:
+jobs:
+  complete-matrix:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential cmake ninja-build git python3
+      - name: Compile real FreeRTOS kernel simulator
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+          cmake --build build -j2
+      - name: Record host and toolchain environment
+        run: |
+          mkdir -p results/full
+          uname -a > results/full/environment.txt
+          lscpu >> results/full/environment.txt
+          cc --version >> results/full/environment.txt
+          cmake --version >> results/full/environment.txt
+      - name: Execute full nine scenarios three times (27 total runs)
+        run: python3 scripts/run_matrix.py --executable build/spacecraft_sim --duration 60 --repetitions 3 --output results/full
+      - name: Ensure all 27 records present
+        run: |
+          test "$(find results/full -maxdepth 1 -name 'E*.csv' | wc -l)" -eq 27
+          test "$(wc -l < results/full/matrix_manifest.csv)" -eq 28
+      - name: Preserve raw traces, diagnostics and summaries
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: freertos-full-27-runs
+          path: results/full/
+          if-no-files-found: ignore
