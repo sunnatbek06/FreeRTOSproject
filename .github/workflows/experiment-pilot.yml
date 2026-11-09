@@ -1,0 +1,31 @@
+name: FreeRTOS experiment matrix (pilot)
+on:
+  push:
+    paths:
+      - '.github/workflows/experiment-pilot.yml'
+  workflow_dispatch:
+jobs:
+  pilot:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential cmake ninja-build git python3
+      - name: Build real FreeRTOS simulator
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+          cmake --build build -j2
+      - name: Execute 9 pilot scenarios
+        run: python3 scripts/run_matrix.py --executable build/spacecraft_sim --duration 9 --repetitions 1 --output results/pilot
+      - name: Check evidence files
+        run: |
+          test "$(find results/pilot -maxdepth 1 -name 'E*.csv' | wc -l)" -eq 9
+          test "$(wc -l < results/pilot/matrix_manifest.csv)" -eq 10
+      - name: Preserve every real experimental record
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: freertos-pilot-9-scenarios
+          path: results/pilot/
+          if-no-files-found: ignore
