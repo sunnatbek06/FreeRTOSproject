@@ -1,0 +1,6 @@
+build/
+results/*.csv
+results/*.txt
+__pycache__/
+*.py[cod]
+.DS_Store
