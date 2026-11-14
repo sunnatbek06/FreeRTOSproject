@@ -1,0 +1,488 @@
+[
+  {
+    "run_id": "E1_dynamic_baseline_r1",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E1_dynamic_baseline_r2",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E1_dynamic_baseline_r3",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E2_static_r1",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E2_static_r2",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E2_static_r3",
+    "events": 2541,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "657",
+      "processed_cmd": "657",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E3_equal_r1",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E3_equal_r2",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E3_equal_r3",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E4_inverted_r1",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E4_inverted_r2",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E4_inverted_r3",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E5_small_queue_r1",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E5_small_queue_r2",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E5_small_queue_r3",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E6_moderate_stress_r1",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E6_moderate_stress_r2",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E6_moderate_stress_r3",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E7_heavy_stress_r1",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E7_heavy_stress_r2",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E7_heavy_stress_r3",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E8_emergency_burst_r1",
+    "events": 3087,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "599",
+      "processed_emg": "599",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E8_emergency_burst_r2",
+    "events": 3087,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "599",
+      "processed_emg": "599",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E8_emergency_burst_r3",
+    "events": 3087,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "599",
+      "processed_emg": "599",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E9_transition_repeat_r1",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E9_transition_repeat_r2",
+    "events": 2543,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "659",
+      "processed_cmd": "659",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  },
+  {
+    "run_id": "E9_transition_repeat_r3",
+    "events": 2541,
+    "status": "PASS",
+    "counts": {
+      "sent_tel": "1100",
+      "processed_tel": "1100",
+      "dropped_tel": "0",
+      "sent_cmd": "657",
+      "processed_cmd": "657",
+      "dropped_cmd": "0",
+      "sent_emg": "19",
+      "processed_emg": "19",
+      "dropped_emg": "0",
+      "dropped_log": "0",
+      "remaining": "0"
+    }
+  }
+]

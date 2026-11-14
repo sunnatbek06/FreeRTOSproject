@@ -1,57 +1,56 @@
-# FreeRTOS Spacecraft Communication Simulator
+# FreeRTOS spacecraft communication simulator
 
-Educational mission-phase spacecraft communication system using **real FreeRTOS tasks and queues**, the Linux GCC_POSIX simulator port, and a repeatable measurement pipeline.
+An educational host application using real FreeRTOS tasks, queues and priorities across launch, ascent and orbit insertion.
 
-## Status
+## Assessment package
 
-- Initial FreeRTOS Linux build and 9-second smoke simulation: **passed** in GitHub Actions on November 9, 2026 ([evidence](https://github.com/sunnatbek06/FreeRTOSproject/actions/runs/42571906618)).
-- Initial CSV analysis unit tests: **passed** in the same run.
-- Full E1–E9 experiments and controlled host replication: **not yet complete**.
-- System is an academic scheduler simulation, **not flight software**.
+Start with [the deliverables index](deliverables/DELIVERABLES.md). It links the technical report, high-level and low-level designs, implementation guide, test evidence, presentation, speaker notes and preserved experiments.
 
-## Simulated design
+## Verified status - 15 November 2026
 
-Three phases: Launch, Ascent, Orbit Insertion. Periodic telemetry, periodic ground commands, emergency injector, three priority-aware handlers, phase manager, queue monitor, logger, and mission controller. Emergency handler has priority 5; phase manager 4; telemetry/command worker priorities are varied according to the selected scheduling policy.
+- Linux Debug build, real simulator smoke test and 12 analysis/evidence unit tests passed.
+- Twelve invalid executable CLI cases were rejected as expected.
+- [Full 27-run rerun](https://github.com/sunnatbek06/FreeRTOSproject/actions/runs/43622890428) passed.
+- [18 supplementary contention runs](https://github.com/sunnatbek06/FreeRTOSproject/actions/runs/43622890473) passed.
+- All 72 preserved traces, including the earlier 27-run suite, passed independent counter and lifecycle checks.
+- Tested C source revision: `1abe724835a4779390df2b0b9cc7e73e281a413e`. Documentation/evidence packaging commits preserve that C source.
 
-| Mission phase | Telemetry period | Command period | Dynamic telemetry / command priority |
-| --- | --- | --- | --- |
-| Launch | 50 ms | 160 ms | 3 / 2 |
-| Ascent | 100 ms | 60 ms | 2 / 3 |
-| Orbit insertion | 40 ms | 100 ms | 3 / 2 |
+The original loop workload gives almost entirely zero-tick latencies and cannot establish policy superiority. Added CPU demand exposes queueing and deadline misses. Dynamic priorities avoid measured misses in these cases but delay sources and reduce offered traffic. See the [technical report](docs/TECHNICAL_REPORT.md) for numbers and limitations.
 
-Worker deadlines are 100 ticks (telemetry), 80 ticks (command), 20 ticks (emergency), at nominal 1000 ticks/s.
+## Build and run in Linux
 
-## Build in Linux
-
-On macOS use **Ubuntu in a VM or Linux container**, rather than attempting a native GCC_POSIX build. Full instructions: [docs/MACOS_SETUP.md](docs/MACOS_SETUP.md).
-
-```bash
-sudo apt-get update && sudo apt-get install -y build-essential cmake ninja-build git python3
+```
+sudo apt-get update
+sudo apt-get install -y build-essential cmake ninja-build git python3
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
 cmake --build build -j2
 python3 -m unittest discover -s tests -v
-mkdir -p results
-./build/spacecraft_sim --policy dynamic --duration 30 --run-id baseline01 > results/baseline01.csv 2> results/baseline01.txt
-python3 scripts/analyze.py results/baseline01.csv results/baseline01_summary.csv
+python3 scripts/check_cli.py build/spacecraft_sim
+mkdir -p results/smoke
+./build/spacecraft_sim --duration 9 --policy dynamic --run-id smoke01 > results/smoke/events.csv 2> results/smoke/diagnostics.txt
+python3 scripts/validate_evidence.py results/smoke/events.csv results/smoke/diagnostics.txt --duration 9
 ```
 
-The first CMake configure downloads FreeRTOS-Kernel **V11.1.0** via FetchContent. To use a local kernel checkout, set `-DFREERTOS_KERNEL_PATH=/absolute/path/to/FreeRTOS-Kernel`.
+CMake downloads FreeRTOS-Kernel V11.1.0. Offline builds can use `-DFREERTOS_KERNEL_PATH=/absolute/path/to/kernel`. The project restricts simulator execution to Linux. macOS development, Linux execution and all reproduction commands are covered in the [implementation guide](docs/IMPLEMENTATION_GUIDE.md).
 
-## Options and experiments
+## Experiments and analysis
 
-```bash
-./build/spacecraft_sim --policy dynamic|static|equal|inverted --duration 60 \
-  --stress 1 --telemetry-queue 16 --emergency-interval 3000 --run-id test01
+```
+python3 scripts/run_matrix.py --duration 60 --repetitions 3 --output results/full
+python3 scripts/run_contention.py --repetitions 3 --output results/contention
+python3 tools/review_results.py
 ```
 
-The pipe-separated values above describe alternatives for `--policy`: select **one** of the four. Real example: `--policy dynamic`.
+The first command runs E1-E9. The second runs separate C1-C6 CPU-demand cases. The third extracts the preserved evidence archives if needed, independently validates all 72 traces and rebuilds the run/phase/pooled assessment tables. [Protocol](docs/EXPERIMENTS.md).
 
-Read [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md) for the nine planned experiment scenarios. Each should be repeated three times on a controlled Linux environment. Record the command line, raw CSV, stderr COUNTS, kernel version, build flags, OS, CPU, summary CSV, and contribution evidence.
+The simulator uses nominal kernel ticks, synthetic messages and POSIX process termination. It includes no radio or flight hardware. Native Mac simulator execution and target timing remain unverified. Queue depth is sampled, emergency latency excludes delayed fault-source release, and relative producer delays change offered traffic under load.
 
-## Interpreting results
+## Team and collaboration
 
-The measured latency is queue entry to completion in **nominal FreeRTOS scheduler ticks**. It includes synthetic workload and scheduler delays, not radio transmission time. The Linux host, terminal/CSV I/O, and POSIX simulator introduce jitter and prevent real flight-time guarantees. Verify the stderr COUNTS diagnostics (including lost logger events and undrained queues) before trusting CSV totals.
+| Member | Student ID |
+|---|---|
+| Esonov Sunnatbek Saydulla Ugli | 202412372 |
+| Singla Vaidant | 202608452 |
+| Rajbhandari Kusum | 202512310 |
 
-## Teamwork
-
-See [docs/CONTRIBUTIONS.md](docs/CONTRIBUTIONS.md) to record actual work completed by the three members. Commit authorship, reviews, test artifacts, and real Notion history should be documented honestly.
+[Notion project and collaboration home](https://app.notion.com/p/4188c3a60ac581cb90f6cc8691c96392). [Contribution record](docs/CONTRIBUTIONS.md). Individual contributions, original assignment-rubric compliance and final team review require confirmation. Historical meetings and student credit have not been invented.

@@ -1,0 +1,17 @@
+test_missing_columns (test_analyze.SummaryTests.test_missing_columns) ... ok
+test_percentile (test_analyze.SummaryTests.test_percentile) ... ok
+test_summary (test_analyze.SummaryTests.test_summary) ... ok
+test_accepted_inflight_message (test_evidence.EvidenceTests.test_accepted_inflight_message) ... ok
+test_counter_mismatch (test_evidence.EvidenceTests.test_counter_mismatch) ... ok
+test_deadline_misclassification (test_evidence.EvidenceTests.test_deadline_misclassification) ... ok
+test_early_finish (test_evidence.EvidenceTests.test_early_finish) ... ok
+test_lost_log (test_evidence.EvidenceTests.test_lost_log) ... ok
+test_monitor_depth_belongs_to_channel (test_evidence.EvidenceTests.test_monitor_depth_belongs_to_channel) ... ok
+test_transition_missing (test_evidence.EvidenceTests.test_transition_missing) ... ok
+test_undrained (test_evidence.EvidenceTests.test_undrained) ... ok
+test_valid_and_inclusive_deadline (test_evidence.EvidenceTests.test_valid_and_inclusive_deadline) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.011s
+
+OK
