@@ -1,0 +1,35 @@
+name: Supplementary CPU contention experiments
+on:
+  workflow_dispatch:
+  push:
+    branches: [feature/spacecraft-simulator]
+    paths: ['.github/workflows/contention.yml', 'src/**', 'scripts/run_contention.py']
+jobs:
+  contention:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+          cmake --build build -j2
+          python3 -m unittest discover -s tests -v
+      - name: Record environment
+        run: |
+          mkdir -p results/contention
+          uname -a > results/contention/environment.txt
+          lscpu >> results/contention/environment.txt
+          cc --version >> results/contention/environment.txt
+          git rev-parse HEAD >> results/contention/environment.txt
+          sha256sum src/main.c include/FreeRTOSConfig.h build/spacecraft_sim >> results/contention/environment.txt
+          git -C build/_deps/freertos_kernel-src rev-parse HEAD >> results/contention/environment.txt
+      - name: CLI rejection checks
+        run: python3 scripts/check_cli.py build/spacecraft_sim
+      - name: Execute six supplementary scenarios three times
+        run: python3 scripts/run_contention.py --repetitions 3
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: freertos-contention-18-runs
+          path: results/contention/

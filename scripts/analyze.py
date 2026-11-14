@@ -31,7 +31,10 @@ def summarize(path):
                 latency = int(row["latency_ticks"])
             except (ValueError, TypeError) as exc:
                 raise ValueError(f"Invalid numeric data on line {line}") from exc
-            key = (row["run_id"], row["phase"], row["channel"])
+            channel = row["channel"]
+            if channel == "monitor" and row["event"].endswith("_depth"):
+                channel = row["event"][:-6]
+            key = (row["run_id"], row["phase"], channel)
             result = groups[key]
             result["depth"] = max(result["depth"], depth)
             if row["event"] in ("completed", "handled", "deadline_miss"):

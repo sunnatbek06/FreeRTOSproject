@@ -1,5 +1,7 @@
 /* Educational FreeRTOS spacecraft communication simulator for Linux GCC_POSIX. */
+#define _POSIX_C_SOURCE 200809L
 #include <stdio.h>
+#include <time.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
@@ -29,6 +31,7 @@ static atomic_uint sentT, sentC, sentE, doneT, doneC, doneE;
 static atomic_uint dropT, dropC, dropE, dropLog;
 static TickType_t epoch;
 static unsigned duration = 30, depth = 16, stress = 1, emergencyInterval = 3000;
+static unsigned serviceUs = 0; /* Optional measured host-thread CPU demand. */
 static char runId[48] = "run1";
 static Policy policy = DYNAMIC;
 
@@ -50,6 +53,18 @@ static void burn(unsigned units) {
   volatile uint32_t x = 1;
   for(unsigned i = 0; i < units * 1000u; i++) x = (x ^ i) * 1664525u + 1013904223u;
   (void)x;
+}
+/* CPU time excludes time when this POSIX task thread is suspended. The
+ * optional demand exposes contention hidden by the small default loop. */
+static void service(unsigned multiplier) {
+  if(!serviceUs) return;
+  struct timespec start, now;
+  if(clock_gettime(CLOCK_THREAD_CPUTIME_ID, &start)) { perror("clock_gettime"); exit(2); }
+  int64_t target = (int64_t)serviceUs * multiplier * 1000;
+  do {
+    burn(1);
+    if(clock_gettime(CLOCK_THREAD_CPUTIME_ID, &now)) { perror("clock_gettime"); exit(2); }
+  } while(((int64_t)now.tv_sec - start.tv_sec) * 1000000000LL + now.tv_nsec - start.tv_nsec < target);
 }
 static void produceTelemetry(void *arg) {
   (void)arg;
@@ -103,6 +118,7 @@ static void processTelemetry(void *arg) {
   while(!atomic_load(&stopWorkers) || uxQueueMessagesWaiting(telemetryQ)) {
     if(xQueueReceive(telemetryQ, &msg, pdMS_TO_TICKS(20)) == pdTRUE) {
       burn(stress * (msg.phase == ORBIT_INSERTION ? 4u : 2u));
+      service(msg.phase == ORBIT_INSERTION ? 2u : 1u);
       unsigned elapsed = (unsigned)(xTaskGetTickCount() - msg.created);
       atomic_fetch_add(&doneT, 1);
       logEvent(msg.phase, "telemetry", elapsed > 100 ? "deadline_miss" : "completed",
@@ -117,6 +133,7 @@ static void processCommand(void *arg) {
   while(!atomic_load(&stopWorkers) || uxQueueMessagesWaiting(commandQ)) {
     if(xQueueReceive(commandQ, &msg, pdMS_TO_TICKS(20)) == pdTRUE) {
       burn(stress * 2u);
+      service(1u);
       unsigned elapsed = (unsigned)(xTaskGetTickCount() - msg.created);
       atomic_fetch_add(&doneC, 1);
       logEvent(msg.phase, "command", elapsed > 80 ? "deadline_miss" : "completed",
@@ -255,6 +272,8 @@ int main(int argc, char **argv) {
       depth = number(argv[++i], 1, 256);
     else if(!strcmp(argv[i], "--stress") && i + 1 < argc)
       stress = number(argv[++i], 1, 1000);
+    else if(!strcmp(argv[i], "--service-us") && i + 1 < argc)
+      serviceUs = number(argv[++i], 0, 1000000);
     else if(!strcmp(argv[i], "--emergency-interval") && i + 1 < argc)
       emergencyInterval = number(argv[++i], 100, 3000);
     else if(!strcmp(argv[i], "--run-id") && i + 1 < argc) {

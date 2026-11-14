@@ -3,9 +3,13 @@ on:
   workflow_dispatch:
   push:
     branches: [feature/spacecraft-simulator]
-    paths: ['.github/workflows/full-experiments.yml']
+    paths: ['.github/workflows/full-experiments.yml', 'src/**', 'include/**', 'scripts/**', 'tests/**']
 jobs:
   complete-matrix:
+    strategy:
+      fail-fast: false
+      matrix:
+        repetition: [1, 2, 3]
     runs-on: ubuntu-22.04
     timeout-minutes: 55
     steps:
@@ -25,16 +29,19 @@ jobs:
           lscpu >> results/full/environment.txt
           cc --version >> results/full/environment.txt
           cmake --version >> results/full/environment.txt
-      - name: Execute full nine scenarios three times (27 total runs)
-        run: python3 scripts/run_matrix.py --executable build/spacecraft_sim --duration 60 --repetitions 3 --output results/full
-      - name: Ensure all 27 records present
+          git rev-parse HEAD >> results/full/environment.txt
+          sha256sum src/main.c include/FreeRTOSConfig.h build/spacecraft_sim >> results/full/environment.txt
+          git -C build/_deps/freertos_kernel-src rev-parse HEAD >> results/full/environment.txt
+      - name: Execute nine scenarios for this repetition
+        run: python3 scripts/run_matrix.py --executable build/spacecraft_sim --duration 60 --repetitions 1 --repetition-start ${{ matrix.repetition }} --output results/full
+      - name: Ensure all nine records present
         run: |
-          test "$(find results/full -maxdepth 1 -name 'E*.csv' | wc -l)" -eq 27
-          test "$(wc -l < results/full/matrix_manifest.csv)" -eq 28
+          test "$(find results/full -maxdepth 1 -name 'E*.csv' | wc -l)" -eq 9
+          test "$(wc -l < results/full/matrix_manifest.csv)" -eq 10
       - name: Preserve raw traces, diagnostics and summaries
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: freertos-full-27-runs
+          name: freertos-full-repetition-${{ matrix.repetition }}
           path: results/full/
           if-no-files-found: ignore

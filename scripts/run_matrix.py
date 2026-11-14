@@ -6,6 +6,7 @@ import subprocess
 import sys
 from pathlib import Path
 from analyze import summarize, COLUMNS
+from validate_evidence import validate
 
 SCENARIOS = [
     ("E1_dynamic_baseline", "dynamic", 1, 16, 3000),
@@ -20,12 +21,12 @@ SCENARIOS = [
 ]
 
 
-def run(executable, destination, duration, repetitions):
+def run(executable, destination, duration, repetitions, repetition_start=1):
     destination.mkdir(parents=True, exist_ok=True)
     summary_rows = []
     manifest_rows = []
     for scenario, policy, stress, depth, interval in SCENARIOS:
-        for repetition in range(1, repetitions + 1):
+        for repetition in range(repetition_start, repetition_start + repetitions):
             identifier = f"{scenario}_r{repetition}"
             events = destination / f"{identifier}.csv"
             diagnostics = destination / f"{identifier}.txt"
@@ -45,6 +46,7 @@ def run(executable, destination, duration, repetitions):
                 raise RuntimeError(f"{identifier}: exit code {completed.returncode}; see {diagnostics}")
             if ",mission,finished," not in output or "COUNTS " not in diagnostic_text:
                 raise RuntimeError(f"{identifier}: incomplete shutdown evidence")
+            validate(events, diagnostics, duration)
             grouped = summarize(events)
             if not any(row["channel"] == "emergency" and row["processed"] > 0 for row in grouped):
                 raise RuntimeError(f"{identifier}: no handled emergency in output")
@@ -78,10 +80,11 @@ def main():
     parser.add_argument("--output", default="results/matrix", type=Path)
     parser.add_argument("--duration", type=int, default=60)
     parser.add_argument("--repetitions", type=int, default=3)
+    parser.add_argument("--repetition-start", type=int, default=1)
     args = parser.parse_args()
-    if not 9 <= args.duration <= 3600 or not 1 <= args.repetitions <= 20:
+    if not 9 <= args.duration <= 3600 or not 1 <= args.repetitions <= 20 or not 1 <= args.repetition_start <= 20:
         parser.error("duration must be 9..3600 and repetitions 1..20")
-    run(args.executable, args.output, args.duration, args.repetitions)
+    run(args.executable, args.output, args.duration, args.repetitions, args.repetition_start)
 
 
 if __name__ == "__main__":
