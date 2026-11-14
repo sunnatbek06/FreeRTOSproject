@@ -1,0 +1,9 @@
+build/
+results/*.csv
+results/*.txt
+__pycache__/
+*.py[cod]
+.DS_Store
+evidence/full/
+evidence/final/
+evidence/contention/

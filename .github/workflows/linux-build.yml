@@ -1,0 +1,39 @@
+name: Linux FreeRTOS simulator checks
+on:
+  push:
+    branches: [main, 'feature/**']
+  pull_request:
+jobs:
+  simulator:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential cmake ninja-build git python3
+      - name: Unit-test analysis
+        run: python3 -m unittest discover -s tests -v
+      - name: Configure kernel and host simulator
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+      - name: Compile
+        run: cmake --build build -j2
+      - name: Run actual simulator smoke test
+        run: |
+          timeout 30s ./build/spacecraft_sim --duration 9 --policy dynamic --run-id ci_smoke > events.csv 2> diagnostics.txt
+          test "$(wc -l < events.csv)" -gt 10
+          grep -q ',mission,finished,' events.csv
+          grep -q 'COUNTS ' diagnostics.txt
+      - name: Analyze collected events
+        run: |
+          python3 scripts/analyze.py events.csv summary.csv
+          test "$(wc -l < summary.csv)" -gt 2
+      - name: Preserve experiment evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: simulator-smoke
+          path: |
+            events.csv
+            summary.csv
+            diagnostics.txt
+          if-no-files-found: ignore
